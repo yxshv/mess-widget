@@ -21,6 +21,7 @@ that file; phones pick it up within ~2 hours, or immediately on tap.
 - `week.<day>` — dishes per meal as display strings.
 - `overrides."YYYY-MM-DD"` — one-day changes (e.g. "menu revised due to
   unavailability of vegetables" emails); only the meals listed are replaced.
+- `caterer` — whose dishes to use when a menu email lists caterers separately.
 - `validTo` — after this date the widget says "awaiting new menu".
 
 ## Build
