@@ -12,16 +12,6 @@
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
-    <style name="PricePill" parent="StatusPill">
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:paddingStart">6dp</item>
-        <item name="android:paddingEnd">6dp</item>
-        <item name="android:paddingTop">1dp</item>
-        <item name="android:paddingBottom">1dp</item>
-        <item name="android:visibility">gone</item>
-    </style>
-
     <style name="MealName">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -49,6 +39,7 @@
 
     <style name="Sides">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:fontFamily">@font/roboto_slab</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">end</item>
         <item name="android:lineSpacingMultiplier">1.05</item>

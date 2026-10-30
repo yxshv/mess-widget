@@ -127,9 +127,6 @@ class MessWidgetProvider : AppWidgetProvider() {
 
             views.setTextViewText(R.id.status, statusText(date, slot, now, index, current))
             views.setTextViewText(R.id.meal, slot.meal.title)
-            val price = if (slot.meal == Meal.SNACKS) menu.snacksPrice else ""
-            views.setTextViewText(R.id.price, price)
-            views.setViewVisibility(R.id.price, if (price.isEmpty()) View.GONE else View.VISIBLE)
             val ongoing = date == now.toLocalDate() && now.toLocalTime() in slot.start..slot.end
             views.setTextViewText(R.id.time, when {
                 ongoing -> "till ${slot.timeRange().substringAfter("– ")}"
@@ -141,7 +138,7 @@ class MessWidgetProvider : AppWidgetProvider() {
             val stale = menu.validTo?.let { date.isAfter(it) } == true
             views.setTextViewText(R.id.headline, headline.ifEmpty { "Menu not out yet" })
             views.setTextViewText(R.id.sides, when {
-                headline.isNotEmpty() -> sides.joinToString("\u00A0· ")
+                headline.isNotEmpty() -> sides.joinToString("\u00A0• ")
                 stale -> "The next menu hasn't been emailed yet"
                 else -> ""
             })

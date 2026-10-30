@@ -8,7 +8,7 @@ widget snaps back to the meal that matters now. Tapping the card fetches the
 latest menu.
 
 The card colour follows the time of day: sunrise for breakfast, midday blue
-for lunch, teal for Hi-Tea (paid, ₹20) and night for dinner. Resized to 2×2
+for lunch, teal for Hi-Tea and night for dinner. Resized to 2×2
 it switches to a compact layout that still leads with the food.
 
 Meal illustrations and the launcher icon are Microsoft Fluent Emoji (flat
@@ -30,7 +30,6 @@ that file; phones pick it up within ~2 hours, or immediately on tap.
 - `week.<day>` — dishes per meal as display strings.
 - `overrides."YYYY-MM-DD"` — one-day changes (e.g. "menu revised due to
   unavailability of vegetables" emails); only the meals listed are replaced.
-- `snacksPrice` — shown next to Hi-Tea.
 - `caterer` — whose dishes to use when a menu email lists caterers separately.
 - `validTo` — after this date the widget says "awaiting new menu".
 

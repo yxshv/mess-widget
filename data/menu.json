@@ -37,7 +37,6 @@
   "holidays": [
     "2026-10-20"
   ],
-  "snacksPrice": "₹20",
   "week": {
     "monday": { "breakfast": "Puri, Aloo Tamatar Sabji, Sprouts", "lunch": "Rice, Rajma, Roti, Lauki Tamatar, Sweet Lassi, Masala Papad", "snacks": "Aloo Vada + Tea", "dinner": "Veg Pulao, Lal Masoor Dal, Mix Veg (No Potato), Boondi Laddoo" },
     "tuesday": { "breakfast": "Medu Vada, Sambhar, Chutney, Sprouts Chaat", "lunch": "Rice, Tuar Dal, Roti, Matar Cabbage Tamatar (Aloo Fried), Rasam", "snacks": "Punjabi Mathri + Tea", "dinner": "Rice, Roti, Chana Dal, Masala Gobi Aloo, Doodh Peda" },

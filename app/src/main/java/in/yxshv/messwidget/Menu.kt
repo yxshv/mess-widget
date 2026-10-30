@@ -63,8 +63,6 @@ data class DayMenu(val date: LocalDate, val slots: List<MealSlot>)
 /** Parsed form of data/menu.json. */
 class Menu(private val json: JSONObject) {
 
-    /** Shown next to the Hi-Tea chip, since snacks are paid. */
-    val snacksPrice: String = json.optString("snacksPrice")
     val validTo: LocalDate? = json.optString("validTo").takeIf { it.isNotEmpty() }?.let(LocalDate::parse)
 
     private val holidays: Set<String> = json.optJSONArray("holidays")
