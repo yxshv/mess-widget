@@ -11,8 +11,10 @@ The card colour follows the time of day: sunrise for breakfast, midday blue
 for lunch, teal for Hi-Tea (paid, ₹20) and night for dinner. Resized to 2×2
 it switches to a compact layout that still leads with the food.
 
-Illustrations, card gradients and the launcher icon are generated from
-`design/doodles.py`; `design/mock_*.png` are the mock-ups.
+Meal illustrations and the launcher icon are Microsoft Fluent Emoji (flat
+style, MIT licence; see `design/fluent-emoji/`). `design/generate.py` turns
+them, plus the card gradients, into Android drawables. Editable designs:
+https://www.figma.com/design/GjtJKXWWEZ1DIFjwajqbwr/mess-widget
 
 ## How the menu gets in
 
