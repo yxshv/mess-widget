@@ -1,40 +1,51 @@
 {
   "mess": "IIT Indore Dining Hall",
   "caterer": "Surinder Arora",
-  "validFrom": "2026-10-19",
+  "validFrom": "2026-10-26",
   "validTo": "2026-10-31",
   "updated": "2026-10-30",
-  "source": "Dining Committee email 'Updated Menu (19th oct to 31st oct)'; Hi-Tea poster from Dining Warden Office (10 Oct 2026)",
+  "source": "Regular Menu PDF (26th-31st Oct table) from Dining Committee email 'Updated Menu (19th oct to 31st oct)'; Hi-Tea poster from Dining Warden Office (10 Oct 2026)",
   "timings": {
-    "weekday": {
-      "breakfast": ["07:45", "10:00"],
-      "lunch": ["12:30", "14:30"],
-      "snacks": ["17:00", "18:00"],
-      "dinner": ["19:45", "21:45"]
-    },
-    "saturday": {
-      "breakfast": ["08:30", "10:30"],
-      "lunch": ["12:30", "14:30"],
-      "snacks": ["17:00", "18:00"],
-      "dinner": ["19:30", "21:30"]
-    },
-    "sunday": {
-      "breakfast": ["08:30", "10:30"],
-      "lunch": ["12:30", "14:30"],
-      "snacks": ["17:00", "18:00"],
-      "dinner": ["19:45", "21:45"]
-    }
+    "weekday": { "breakfast": [
+        "07:45", "10:00"
+      ], "lunch": [
+        "12:30", "14:30"
+      ], "snacks": [
+        "17:00", "18:00"
+      ], "dinner": [
+        "19:45", "21:45"
+      ] },
+    "saturday": { "breakfast": [
+        "08:30", "10:30"
+      ], "lunch": [
+        "12:30", "14:30"
+      ], "snacks": [
+        "17:00", "18:00"
+      ], "dinner": [
+        "19:30", "21:30"
+      ] },
+    "sunday": { "breakfast": [
+        "08:30", "10:30"
+      ], "lunch": [
+        "12:30", "14:30"
+      ], "snacks": [
+        "17:00", "18:00"
+      ], "dinner": [
+        "19:45", "21:45"
+      ] }
   },
-  "holidays": ["2026-10-20"],
+  "holidays": [
+    "2026-10-20"
+  ],
   "snacksLabel": "Hi-Tea · ₹20",
   "week": {
-    "monday":    { "breakfast": "", "lunch": "", "snacks": "Aloo Vada + Tea", "dinner": "" },
-    "tuesday":   { "breakfast": "", "lunch": "", "snacks": "Punjabi Mathri + Tea", "dinner": "" },
-    "wednesday": { "breakfast": "", "lunch": "", "snacks": "Veg Cutlet (2 pcs) + Tea", "dinner": "" },
-    "thursday":  { "breakfast": "", "lunch": "", "snacks": "Veg Pakaudi + Tea", "dinner": "" },
-    "friday":    { "breakfast": "", "lunch": "", "snacks": "Veg Pasta + Tea", "dinner": "" },
-    "saturday":  { "breakfast": "", "lunch": "", "snacks": "Veg Sandwich (1 pc) + Tea", "dinner": "" },
-    "sunday":    { "breakfast": "", "lunch": "", "snacks": "Bhel Puri + Tea", "dinner": "" }
+    "monday": { "breakfast": "Puri, Aloo Tamatar Sabji, Sprouts", "lunch": "Rice, Rajma, Roti, Lauki Tamatar, Sweet Lassi, Masala Papad", "snacks": "Aloo Vada + Tea", "dinner": "Veg Pulao, Lal Masoor Dal, Mix Veg (No Potato), Boondi Laddoo" },
+    "tuesday": { "breakfast": "Medu Vada, Sambhar, Chutney, Sprouts Chaat", "lunch": "Rice, Tuar Dal, Roti, Matar Cabbage Tamatar (Aloo Fried), Rasam", "snacks": "Punjabi Mathri + Tea", "dinner": "Rice, Roti, Chana Dal, Masala Gobi Aloo, Doodh Peda" },
+    "wednesday": { "breakfast": "Green Moong Dal Chilla, Green Chutney, Sprouts Chaat", "lunch": "Plain Rice, Soya Aloo, Green Moong Dal, Boondi Raita, Pudina Chutney, Plain Paratha", "snacks": "Veg Cutlet (2 pcs) + Tea", "dinner": "Rice, Dal Makhani, Roti, Kadai Paneer Masala / Egg Biryani, Moong Dal Halwa" },
+    "thursday": { "breakfast": "Idli Sambhar, Coconut Chutney, Red Chutney", "lunch": "Lemon Rice, Kala Chana, Roti, Aloo Tamatar Matar (Dry), Curd", "snacks": "Veg Pakaudi + Tea", "dinner": "Rice, Tuar Dal, Roti, Corn Palak (Saag), Rice Kheer" },
+    "friday": { "breakfast": "Poha, Green Chutney, Onion, Jalebi, Nimbu", "lunch": "Rice, Kadhi, Aloo Bhujiya, Jaljeera", "snacks": "Veg Pasta + Tea", "dinner": "Jeera Rice, Tuar Dal Tadka, Pav Bhaji, Besan Laddoo, Masala Papad" },
+    "saturday": { "breakfast": "Stuffed Aloo Paratha, Curd, Sprouts, Green Chutney", "lunch": "Masala Matar Rice, Dal Tadka, Masala Besan Gatta, Shikanji, Garlic Chutney", "snacks": "Veg Sandwich (1 pc) + Tea", "dinner": "Veg Biryani (Paneer), Veg Raita, Methi Paratha, Lauki Kofta, Gulab Jamun" },
+    "sunday": { "breakfast": "Masala Dosa, Sambhar, Coconut Chutney", "lunch": "Chole Bhature, Jeera Rice, Masala Chaas", "snacks": "Bhel Puri + Tea", "dinner": "Rice, Panchratna Dal, Roti, Shahi Paneer / Chicken Curry, Fruit Custard" }
   },
   "overrides": {}
 }
