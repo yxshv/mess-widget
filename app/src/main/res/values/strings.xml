@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Mess Menu</string>
+    <string name="widget_name">Mess menu</string>
+    <string name="widget_description">Today\'s breakfast, lunch, Hi-Tea and dinner. Tap to refresh.</string>
+</resources>
