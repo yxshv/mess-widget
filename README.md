@@ -1,11 +1,18 @@
 # Mess Menu widget
 
-Android home-screen widget showing today's IIT Indore mess menu: breakfast,
-lunch, Hi-Tea (paid, ₹20) and dinner, with timings. The ongoing or next meal
-is highlighted; after dinner it switches to tomorrow. Tap to refresh.
+Android home-screen widget for the IIT Indore mess, styled after Samsung
+Weather. It shows one meal at a time: the one being served, else the next.
+The main dish is shown big, the rest underneath, and ‹ › step through earlier
+and later meals (up to two days ahead). After each meal starts or ends the
+widget snaps back to the meal that matters now. Tapping the card fetches the
+latest menu.
 
-Styled to match a dark One UI home screen: charcoal card, grey rows,
-coral-red accent.
+The card colour follows the time of day: sunrise for breakfast, midday blue
+for lunch, teal for Hi-Tea (paid, ₹20) and night for dinner. Resized to 2×2
+it switches to a compact layout that still leads with the food.
+
+Illustrations, card gradients and the launcher icon are generated from
+`design/doodles.py`; `design/mock_*.png` are the mock-ups.
 
 ## How the menu gets in
 
@@ -21,6 +28,7 @@ that file; phones pick it up within ~2 hours, or immediately on tap.
 - `week.<day>` — dishes per meal as display strings.
 - `overrides."YYYY-MM-DD"` — one-day changes (e.g. "menu revised due to
   unavailability of vegetables" emails); only the meals listed are replaced.
+- `snacksPrice` — shown next to Hi-Tea.
 - `caterer` — whose dishes to use when a menu email lists caterers separately.
 - `validTo` — after this date the widget says "awaiting new menu".
 

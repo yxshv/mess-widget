@@ -7,17 +7,29 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.os.Bundle
+import android.util.SizeF
+import android.view.View
 import android.widget.RemoteViews
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import kotlin.concurrent.thread
 
 class MessWidgetProvider : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
+            ACTION_PREV, ACTION_NEXT -> {
+                val id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1)
+                val step = if (intent.action == ACTION_NEXT) 1 else -1
+                val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                prefs.edit().putInt(offsetKey(id), prefs.getInt(offsetKey(id), 0) + step).apply()
+                update(context, AppWidgetManager.getInstance(context), id)
+            }
             ACTION_REFRESH, ACTION_TICK -> {
+                if (intent.action == ACTION_TICK) resetOffsets(context)
                 val force = intent.action == ACTION_REFRESH
                 val pending = goAsync()
                 thread {
@@ -46,87 +58,143 @@ class MessWidgetProvider : AppWidgetProvider() {
         }
     }
 
+    override fun onAppWidgetOptionsChanged(
+        context: Context, manager: AppWidgetManager, id: Int, newOptions: Bundle,
+    ) = update(context, manager, id)
+
+    override fun onDeleted(context: Context, ids: IntArray) {
+        val edit = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+        ids.forEach { edit.remove(offsetKey(it)) }
+        edit.apply()
+    }
+
     override fun onDisabled(context: Context) {
-        context.getSystemService(AlarmManager::class.java).cancel(tickIntent(context))
+        context.getSystemService(AlarmManager::class.java).cancel(broadcast(context, ACTION_TICK, 0))
     }
 
     companion object {
         private const val ACTION_REFRESH = "in.yxshv.messwidget.REFRESH"
         private const val ACTION_TICK = "in.yxshv.messwidget.TICK"
+        private const val ACTION_PREV = "in.yxshv.messwidget.PREV"
+        private const val ACTION_NEXT = "in.yxshv.messwidget.NEXT"
+        private const val PREFS = "widget"
+        private const val LARGE_MIN_WIDTH_DP = 240
         private val ZONE: ZoneId = ZoneId.of("Asia/Kolkata")
-        private val DAY = DateTimeFormatter.ofPattern("EEEE, d MMM")
 
-        private val ROWS = mapOf(
-            Meal.BREAKFAST to Row(R.id.row_breakfast, R.id.title_breakfast, R.id.time_breakfast, R.id.items_breakfast),
-            Meal.LUNCH to Row(R.id.row_lunch, R.id.title_lunch, R.id.time_lunch, R.id.items_lunch),
-            Meal.SNACKS to Row(R.id.row_snacks, R.id.title_snacks, R.id.time_snacks, R.id.items_snacks),
-            Meal.DINNER to Row(R.id.row_dinner, R.id.title_dinner, R.id.time_dinner, R.id.items_dinner),
-        )
-
-        private data class Row(val container: Int, val title: Int, val time: Int, val items: Int)
+        private fun offsetKey(id: Int) = "offset_$id"
 
         fun updateAll(context: Context) {
             val manager = AppWidgetManager.getInstance(context)
             val ids = manager.getAppWidgetIds(ComponentName(context, MessWidgetProvider::class.java))
             if (ids.isEmpty()) return
-
-            val menu = MenuRepository(context).cached()
+            ids.forEach { update(context, manager, it) }
             val now = LocalDateTime.now(ZONE)
-            val views = render(context, menu, now)
-            ids.forEach { manager.updateAppWidget(it, views) }
-            scheduleTick(context, menu.nextBoundary(now))
+            scheduleTick(context, MenuRepository(context).cached().nextBoundary(now))
         }
 
-        private fun render(context: Context, menu: Menu, now: LocalDateTime): RemoteViews {
-            val (day, highlight) = menu.current(now)
-            val views = RemoteViews(context.packageName, R.layout.widget_mess)
+        private fun update(context: Context, manager: AppWidgetManager, id: Int) {
+            val menu = MenuRepository(context).cached()
+            val now = LocalDateTime.now(ZONE)
+            val small = render(context, menu, now, id, R.layout.widget_small)
+            val large = render(context, menu, now, id, R.layout.widget_large)
+            val views = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                RemoteViews(mapOf(SizeF(110f, 110f) to small, SizeF(LARGE_MIN_WIDTH_DP.toFloat(), 110f) to large))
+            } else {
+                val width = manager.getAppWidgetOptions(id).getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
+                if (width >= LARGE_MIN_WIDTH_DP) large else small
+            }
+            manager.updateAppWidget(id, views)
+        }
 
-            val heading = if (day.date == now.toLocalDate()) "Today" else "Tomorrow"
-            views.setTextViewText(R.id.heading, heading)
-            views.setTextViewText(R.id.date, day.date.format(DAY))
-            val stale = menu.validTo?.let { day.date.isAfter(it) } == true
-            views.setTextViewText(R.id.status, if (stale) "awaiting new menu" else "↻")
+        private fun render(
+            context: Context, menu: Menu, now: LocalDateTime, id: Int, layout: Int,
+        ): RemoteViews {
+            val compact = layout == R.layout.widget_small
+            val (slots, current) = menu.timeline(now)
+            val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            val index = (current + prefs.getInt(offsetKey(id), 0)).coerceIn(slots.indices)
+            val (date, slot) = slots[index]
+            val views = RemoteViews(context.packageName, layout)
 
-            for ((meal, row) in ROWS) {
-                val slot = day.slots.firstOrNull { it.meal == meal }
-                if (slot == null) {
-                    views.setViewVisibility(row.container, android.view.View.GONE)
-                    continue
-                }
-                views.setViewVisibility(row.container, android.view.View.VISIBLE)
-                val active = slot == highlight
-                val ongoing = active && day.date == now.toLocalDate() && now.toLocalTime() >= slot.start
+            val (card, art) = when (slot.meal) {
+                Meal.BREAKFAST -> R.drawable.card_breakfast to R.drawable.art_breakfast
+                Meal.LUNCH -> R.drawable.card_lunch to R.drawable.art_lunch
+                Meal.SNACKS -> R.drawable.card_snacks to R.drawable.art_snacks
+                Meal.DINNER -> R.drawable.card_dinner to R.drawable.art_dinner
+            }
+            views.setInt(R.id.root, "setBackgroundResource", card)
+            views.setImageViewResource(R.id.art, art)
 
-                val title = if (meal == Meal.SNACKS) menu.snacksLabel else meal.title
-                views.setTextViewText(row.title, if (active) "$title · ${if (ongoing) "now" else "next"}" else title)
-                views.setTextViewText(row.time, "${slot.start.format(Menu.TIME)}–${slot.end.format(Menu.AMPM)}")
-                views.setTextViewText(row.items, slot.items.ifEmpty { "Menu not synced yet" })
-                views.setInt(row.container, "setBackgroundResource",
-                    if (active) R.drawable.row_active else R.drawable.row_idle)
-                views.setInt(row.items, "setMaxLines", if (active) 4 else 2)
+            views.setTextViewText(R.id.status, statusText(date, slot, now, index, current))
+            views.setTextViewText(R.id.meal, slot.meal.title)
+            val price = if (slot.meal == Meal.SNACKS) menu.snacksPrice else ""
+            views.setTextViewText(R.id.price, price)
+            views.setViewVisibility(R.id.price, if (price.isEmpty()) View.GONE else View.VISIBLE)
+            val ongoing = date == now.toLocalDate() && now.toLocalTime() in slot.start..slot.end
+            views.setTextViewText(R.id.time, when {
+                ongoing -> "till ${slot.timeRange().substringAfter("– ")}"
+                compact -> slot.startTime()
+                else -> slot.timeRange()
+            })
+
+            val (headline, sides) = slot.headlineAndSides()
+            val stale = menu.validTo?.let { date.isAfter(it) } == true
+            views.setTextViewText(R.id.headline, headline.ifEmpty { "Menu not out yet" })
+            views.setTextViewText(R.id.sides, when {
+                headline.isNotEmpty() -> sides.joinToString("\u00A0· ")
+                stale -> "The next menu hasn't been emailed yet"
+                else -> ""
+            })
+            if (compact) {
+                // A two-line dish name leaves room for one line of sides.
+                views.setInt(R.id.sides, "setMaxLines", if (headline.length > 13) 1 else 2)
             }
 
-            views.setOnClickPendingIntent(R.id.root, refreshIntent(context))
+            views.setViewVisibility(R.id.prev, if (index > 0) View.VISIBLE else View.INVISIBLE)
+            views.setViewVisibility(R.id.next, if (index < slots.lastIndex) View.VISIBLE else View.INVISIBLE)
+            views.setOnClickPendingIntent(R.id.prev, broadcast(context, ACTION_PREV, id))
+            views.setOnClickPendingIntent(R.id.next, broadcast(context, ACTION_NEXT, id))
+            // Tapping the card itself fetches the latest menu; no visible reload button.
+            views.setOnClickPendingIntent(R.id.root, broadcast(context, ACTION_REFRESH, 0))
             return views
         }
 
-        private fun refreshIntent(context: Context): PendingIntent = PendingIntent.getBroadcast(
-            context, 0,
-            Intent(context, MessWidgetProvider::class.java).setAction(ACTION_REFRESH),
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-        )
+        /** "Now" / "Next" for the meal that matters, else "Earlier", "Later", "Tomorrow" or the weekday. */
+        private fun statusText(date: LocalDate, slot: MealSlot, now: LocalDateTime, index: Int, current: Int): String {
+            val today = now.toLocalDate()
+            return when {
+                index == current && date == today && now.toLocalTime() >= slot.start -> "Now"
+                index == current -> if (date == today) "Next" else "Next · ${dayName(date, today)}"
+                date == today -> if (index < current) "Earlier" else "Later"
+                else -> dayName(date, today)
+            }
+        }
 
-        private fun tickIntent(context: Context): PendingIntent = PendingIntent.getBroadcast(
-            context, 1,
-            Intent(context, MessWidgetProvider::class.java).setAction(ACTION_TICK),
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-        )
+        private fun dayName(date: LocalDate, today: LocalDate) =
+            if (date == today.plusDays(1)) "Tomorrow" else date.format(Menu.WEEKDAY)
 
-        /** Re-render when a meal starts or ends so the highlight moves on time. */
+        private fun broadcast(context: Context, action: String, id: Int): PendingIntent =
+            PendingIntent.getBroadcast(
+                // Intents differ by action; the request code keeps each widget's buttons apart.
+                context, id,
+                Intent(context, MessWidgetProvider::class.java)
+                    .setAction(action)
+                    .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id),
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+
+        /** When a meal starts or ends, jump back to the meal that matters now. */
+        private fun resetOffsets(context: Context) {
+            val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            val edit = prefs.edit()
+            prefs.all.keys.filter { it.startsWith("offset_") }.forEach { edit.remove(it) }
+            edit.apply()
+        }
+
         private fun scheduleTick(context: Context, at: LocalDateTime) {
             val millis = at.atZone(ZONE).toInstant().toEpochMilli()
             context.getSystemService(AlarmManager::class.java)
-                .setWindow(AlarmManager.RTC, millis, 60_000, tickIntent(context))
+                .setWindow(AlarmManager.RTC, millis, 60_000, broadcast(context, ACTION_TICK, 0))
         }
     }
 }

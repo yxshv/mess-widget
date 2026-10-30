@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Mess Menu</string>
     <string name="widget_name">Mess menu</string>
-    <string name="widget_description">Today\'s breakfast, lunch, Hi-Tea and dinner. Tap to refresh.</string>
+    <string name="widget_description">Your next mess meal. Use the arrows to see other meals.</string>
+    <string name="previous_meal">Previous meal</string>
+    <string name="next_meal">Next meal</string>
 </resources>

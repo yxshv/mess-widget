@@ -14,14 +14,57 @@ enum class Meal(val key: String, val title: String) {
     DINNER("dinner", "Dinner"),
 }
 
-data class MealSlot(val meal: Meal, val start: LocalTime, val end: LocalTime, val items: String)
+data class MealSlot(val meal: Meal, val start: LocalTime, val end: LocalTime, val items: String) {
+
+    /**
+     * The dish to show big, and the rest. The headline is the first dish that
+     * isn't an everyday staple (rice, roti, plain dal, chutney...), so Monday
+     * lunch reads "Rajma" rather than "Rice".
+     */
+    fun headlineAndSides(): Pair<String, List<String>> {
+        val dishes = items.split(',', '+').map { it.trim() }.filter { it.isNotEmpty() }
+        if (dishes.isEmpty()) return "" to emptyList()
+        val main = dishes.indexOfFirst { !isStaple(it) }.coerceAtLeast(0)
+        return dishes[main] to dishes.filterIndexed { i, _ -> i != main }
+    }
+
+    /** "12:30 – 2:30 PM", "5 – 6 PM", "11:30 AM – 1 PM". */
+    fun timeRange(): String {
+        val sameHalf = (start.hour < 12) == (end.hour < 12)
+        return if (sameHalf) "${short(start)} – ${short(end)} ${half(end)}"
+        else "${short(start)} ${half(start)} – ${short(end)} ${half(end)}"
+    }
+
+    fun startTime(): String = "${short(start)} ${half(start)}"
+
+    private companion object {
+        val STAPLE = Regex(
+            "\\b(rice|roti|curd|papad|chutney|sprouts|raita|salad|pickle|nimbu|onion|chaas|lassi|" +
+                "jaljeera|shikanji|rasam|tea|coffee|milk|bread|butter)\\b",
+            RegexOption.IGNORE_CASE,
+        )
+        val PLAIN_DAL = Regex("\\bdal\\b", RegexOption.IGNORE_CASE)
+        val SPECIAL_DAL = Regex("makhani|halwa", RegexOption.IGNORE_CASE)
+
+        fun isStaple(dish: String) = STAPLE.containsMatchIn(dish) ||
+            (PLAIN_DAL.containsMatchIn(dish) && !SPECIAL_DAL.containsMatchIn(dish))
+
+        fun short(t: LocalTime): String {
+            val h = (t.hour + 11) % 12 + 1
+            return if (t.minute == 0) "$h" else "$h:${"%02d".format(t.minute)}"
+        }
+
+        fun half(t: LocalTime) = if (t.hour < 12) "AM" else "PM"
+    }
+}
 
 data class DayMenu(val date: LocalDate, val slots: List<MealSlot>)
 
 /** Parsed form of data/menu.json. */
 class Menu(private val json: JSONObject) {
 
-    val snacksLabel: String = json.optString("snacksLabel", "Hi-Tea")
+    /** Shown next to the Hi-Tea chip, since snacks are paid. */
+    val snacksPrice: String = json.optString("snacksPrice")
     val validTo: LocalDate? = json.optString("validTo").takeIf { it.isNotEmpty() }?.let(LocalDate::parse)
 
     private val holidays: Set<String> = json.optJSONArray("holidays")
@@ -48,15 +91,16 @@ class Menu(private val json: JSONObject) {
     }
 
     /**
-     * The menu to show right now: today's, or tomorrow's once dinner is over.
-     * Also returns the slot to highlight (ongoing, else next up).
+     * Today's and the next two days' meals in order, plus the index of the one
+     * that matters now: the meal being served, else the next one.
      */
-    fun current(now: LocalDateTime): Pair<DayMenu, MealSlot?> {
-        val today = dayMenu(now.toLocalDate())
-        val next = today.slots.firstOrNull { now.toLocalTime() < it.end }
-        if (next != null) return today to next
-        val tomorrow = dayMenu(now.toLocalDate().plusDays(1))
-        return tomorrow to tomorrow.slots.firstOrNull()
+    fun timeline(now: LocalDateTime): Pair<List<Pair<LocalDate, MealSlot>>, Int> {
+        val slots = (0L..2L).flatMap { offset ->
+            val date = now.toLocalDate().plusDays(offset)
+            dayMenu(date).slots.map { date to it }
+        }
+        val current = slots.indexOfFirst { (date, slot) -> date.atTime(slot.end).isAfter(now) }
+        return slots to current.coerceAtLeast(0)
     }
 
     /** Next moment the widget's highlight should change. */
@@ -69,8 +113,7 @@ class Menu(private val json: JSONObject) {
     }
 
     companion object {
-        val TIME: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm")
-        val AMPM: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
+        val WEEKDAY: DateTimeFormatter = DateTimeFormatter.ofPattern("EEEE")
 
         fun parse(text: String) = Menu(JSONObject(text))
     }

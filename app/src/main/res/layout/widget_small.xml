@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/card_lunch"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingTop="13dp"
+    android:paddingEnd="13dp"
+    android:paddingBottom="13dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp">
+
+        <TextView
+            android:id="@+id/status"
+            style="@style/StatusPill"
+            android:layout_marginTop="3dp"
+            android:textSize="10.5sp" />
+
+        <ImageView
+            android:id="@+id/art"
+            android:layout_width="54dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:importantForAccessibility="no"
+            android:scaleType="fitCenter"
+            android:src="@drawable/art_lunch" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/headline"
+        style="@style/Headline"
+        android:layout_marginTop="2dp"
+        android:maxLines="2"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/sides"
+        style="@style/Sides"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1"
+        android:maxLines="2"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/meal"
+                    style="@style/MealName"
+                    android:textSize="11.5sp" />
+
+                <TextView
+                    android:id="@+id/price"
+                    style="@style/PricePill"
+                    android:textSize="9.5sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/time"
+                style="@style/TimeText"
+                android:layout_width="match_parent"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/prev"
+            style="@style/NavButton"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:contentDescription="@string/previous_meal"
+            android:src="@drawable/ic_chevron_left" />
+
+        <ImageView
+            android:id="@+id/next"
+            style="@style/NavButton"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="5dp"
+            android:contentDescription="@string/next_meal"
+            android:src="@drawable/ic_chevron_right" />
+    </LinearLayout>
+</LinearLayout>
