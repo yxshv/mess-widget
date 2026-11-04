@@ -1,10 +1,10 @@
 {
   "mess": "IIT Indore Dining Hall",
   "caterer": "Surinder Arora",
-  "validFrom": "2026-10-26",
-  "validTo": "2026-10-31",
-  "updated": "2026-10-30",
-  "source": "Regular Menu PDF (26th-31st Oct table) from Dining Committee email 'Updated Menu (19th oct to 31st oct)'; Hi-Tea poster from Dining Warden Office (10 Oct 2026)",
+  "validFrom": "2026-11-02",
+  "validTo": "2026-11-15",
+  "updated": "2026-11-04",
+  "source": "Regular Menu PDF (02nd-15th Nov; 9-15 Nov differences as overrides) from Dining Committee email 'Updated Menu (02nd nov to 15th nov)'; Hi-Tea poster from Dining Warden Office (10 Oct 2026)",
   "timings": {
     "weekday": { "breakfast": [
         "07:45", "10:00"
@@ -38,13 +38,28 @@
     "2026-10-20"
   ],
   "week": {
-    "monday": { "breakfast": "Puri, Aloo Tamatar Sabji, Sprouts", "lunch": "Rice, Rajma, Roti, Lauki Tamatar, Sweet Lassi, Masala Papad", "snacks": "Aloo Vada + Tea", "dinner": "Veg Pulao, Lal Masoor Dal, Mix Veg (No Potato), Boondi Laddoo" },
-    "tuesday": { "breakfast": "Medu Vada, Sambhar, Chutney, Sprouts Chaat", "lunch": "Rice, Tuar Dal, Roti, Matar Cabbage Tamatar (Aloo Fried), Rasam", "snacks": "Punjabi Mathri + Tea", "dinner": "Rice, Roti, Chana Dal, Masala Gobi Aloo, Doodh Peda" },
-    "wednesday": { "breakfast": "Green Moong Dal Chilla, Green Chutney, Sprouts Chaat", "lunch": "Plain Rice, Soya Aloo, Green Moong Dal, Boondi Raita, Pudina Chutney, Plain Paratha", "snacks": "Veg Cutlet (2 pcs) + Tea", "dinner": "Rice, Dal Makhani, Roti, Kadai Paneer Masala / Egg Biryani, Moong Dal Halwa" },
-    "thursday": { "breakfast": "Idli Sambhar, Coconut Chutney, Red Chutney", "lunch": "Lemon Rice, Kala Chana, Roti, Aloo Tamatar Matar (Dry), Curd", "snacks": "Veg Pakaudi + Tea", "dinner": "Rice, Tuar Dal, Roti, Corn Palak (Saag), Rice Kheer" },
-    "friday": { "breakfast": "Poha, Green Chutney, Onion, Jalebi, Nimbu", "lunch": "Rice, Kadhi, Aloo Bhujiya, Jaljeera", "snacks": "Veg Pasta + Tea", "dinner": "Jeera Rice, Tuar Dal Tadka, Pav Bhaji, Besan Laddoo, Masala Papad" },
-    "saturday": { "breakfast": "Stuffed Aloo Paratha, Curd, Sprouts, Green Chutney", "lunch": "Masala Matar Rice, Dal Tadka, Masala Besan Gatta, Shikanji, Garlic Chutney", "snacks": "Veg Sandwich (1 pc) + Tea", "dinner": "Veg Biryani (Paneer), Veg Raita, Methi Paratha, Lauki Kofta, Gulab Jamun" },
+    "monday": { "breakfast": "Puri, Aloo Tamatar Sabji, Sprouts", "lunch": "Rice, Rajma, Roti, Lauki Tamatar, Sweet Lassi, Masala Papad", "snacks": "Aloo Vada + Tea", "dinner": "Veg Pulao, Green Moong Dal, Mix Veg (No Potato), Lauki Halwa" },
+    "tuesday": { "breakfast": "Uttapam, Sambhar, Chutney, Sprouts Chaat", "lunch": "Rice, Tuar Dal, Roti, Matar Cabbage Tamatar (Aloo Fried), Rasam", "snacks": "Punjabi Mathri + Tea", "dinner": "Rice, Roti, Chana Dal, Masala Gobi Aloo, Doodh Peda" },
+    "wednesday": { "breakfast": "Pyaz Paratha, Green Chutney, Sprouts Chaat", "lunch": "Plain Rice, Baingan Bharta, Moong Dal, Boondi Raita, Pudina Chutney, Plain Paratha", "snacks": "Veg Cutlet (2 pcs) + Tea", "dinner": "Rice, Dal Makhani, Roti, Butter Paneer Masala / Egg Curry, Moong Dal Halwa" },
+    "thursday": { "breakfast": "Fried Idli, Coconut Chutney, Green Chutney", "lunch": "Lemon Rice, Kala Chana, Roti, Aloo Matar (Fry), Curd", "snacks": "Veg Pakaudi + Tea", "dinner": "Rice, Tuar Dal Palak, Roti, Rice Kheer, Gawar Phali (Aloo Fried)" },
+    "friday": { "breakfast": "Poha, Green Chutney, Onion, Jalebi, Nimbu", "lunch": "Rice, Kadhi, Aloo Bhujiya (Fried), Jaljeera", "snacks": "Veg Pasta + Tea", "dinner": "Jeera Rice, Chole, Sev Tamatar, Shahi Tukda, Masala Papad, Besan Laddoo" },
+    "saturday": { "breakfast": "Stuffed Aloo Paratha, Curd, Sprouts, Green Chutney", "lunch": "Masala Matar Rice, Dal Tadka, Kaddu, Shikanji, Garlic Chutney", "snacks": "Veg Sandwich (1 pc) + Tea", "dinner": "Veg Biryani (Paneer), Raita, Methi Paratha, Lauki Kofta, Gulab Jamun" },
     "sunday": { "breakfast": "Masala Dosa, Sambhar, Coconut Chutney", "lunch": "Chole Bhature, Jeera Rice, Masala Chaas", "snacks": "Bhel Puri + Tea", "dinner": "Rice, Panchratna Dal, Roti, Shahi Paneer / Chicken Curry, Fruit Custard" }
   },
-  "overrides": {}
+  "overrides": {
+    "2026-11-09": {
+      "dinner": "Veg Pulao, Lal Masoor Dal, Mix Veg (No Potato), Kaddu Halwa"
+    },
+    "2026-11-10": { "breakfast": "Medu Vada, Sambhar, Chutney, Sprouts Chaat", "lunch": "Rice, Tuar Dal, Roti, Carrot Beans Tamatar, Rasam", "dinner": "Rice, Roti, Chana Dal, Masala Gobi Matar Aloo, Doodh Peda" },
+    "2026-11-11": { "breakfast": "Green Moong Dal Chilla, Green Chutney, Sprouts Chaat", "lunch": "Plain Rice, Bharwa Baingan, Moong Dal, Boondi Raita, Pudina Chutney, Plain Paratha", "dinner": "Rice, Dal Makhani, Roti, Kadai Paneer Masala / Egg Biryani, Moong Dal Halwa" },
+    "2026-11-12": { "breakfast": "Idli Sambhar, Coconut Chutney, Red Chutney", "lunch": "Lemon Rice, Kala Chana, Roti, Aloo Tamatar Matar (Dry), Curd", "dinner": "Rice, Tuar Palak Dal, Roti, Methi Aloo Matar (Dry), Rice Kheer" },
+    "2026-11-13": {
+      "lunch": "Rice, Kadhi, Aloo Bhujiya, Jaljeera",
+      "dinner": "Jeera Rice, Masoor Dal Tadka, Puri, Gobhi Shimla Sabji"
+    },
+    "2026-11-14": {
+      "lunch": "Masala Matar Rice, Dal Tadka, Masala Besan Gatta, Shikanji, Garlic Chutney",
+      "dinner": "Veg Biryani (Paneer), Veg Raita, Methi Paratha, Lauki Kofta, Gulab Jamun"
+    }
+  }
 }

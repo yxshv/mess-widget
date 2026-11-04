@@ -5,6 +5,7 @@ import org.junit.Test
 import java.io.File
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 class MenuTest {
 
@@ -44,13 +45,14 @@ class MenuTest {
 
     @Test
     fun headlineSkipsStaples() {
-        fun headline(date: String, meal: Meal) =
-            menu.dayMenu(LocalDate.parse(date)).slots.first { it.meal == meal }.headlineAndSides().first
-        assertEquals("Rajma", headline("2026-10-26", Meal.LUNCH))
-        assertEquals("Pav Bhaji", headline("2026-10-30", Meal.DINNER))
-        assertEquals("Poha", headline("2026-10-30", Meal.BREAKFAST))
-        assertEquals("Veg Pasta", headline("2026-10-30", Meal.SNACKS))
-        assertEquals("Kadhi", headline("2026-10-30", Meal.LUNCH))
+        // Fixed samples rather than data/menu.json, which changes every fortnight.
+        fun headline(items: String) =
+            MealSlot(Meal.LUNCH, LocalTime.NOON, LocalTime.NOON, items).headlineAndSides().first
+        assertEquals("Rajma", headline("Rice, Rajma, Roti, Lauki Tamatar, Sweet Lassi, Masala Papad"))
+        assertEquals("Pav Bhaji", headline("Jeera Rice, Tuar Dal Tadka, Pav Bhaji, Besan Laddoo, Masala Papad"))
+        assertEquals("Dal Makhani", headline("Rice, Dal Makhani, Roti, Kadai Paneer Masala"))
+        assertEquals("Veg Pasta", headline("Veg Pasta + Tea"))
+        assertEquals("Rice", headline("Rice, Roti, Curd"))
     }
 
     @Test
