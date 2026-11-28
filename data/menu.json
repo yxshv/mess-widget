@@ -3,7 +3,7 @@
   "caterer": "Surinder Arora",
   "validFrom": "2026-11-23",
   "validTo": "2026-12-06",
-  "updated": "2026-11-27",
+  "updated": "2026-11-28",
   "source": "Regular Menu PDF (23rd Nov-06th Dec; 30 Nov-6 Dec differences as overrides) from Dining Committee email 'Updated Menu (23rd nov to 06th dec)'; Hi-Tea poster from Dining Warden Office (10 Oct 2026)",
   "timings": {
     "weekday": { "breakfast": [
@@ -47,10 +47,6 @@
     "sunday": { "breakfast": "Masala Dosa, Sambhar, Coconut Chutney", "lunch": "Chole Bhature, Jeera Rice, Masala Chaas", "snacks": "Bhel Puri + Tea", "dinner": "Rice, Panchratna Dal, Roti, Shahi Paneer / Chicken Curry, Fruit Custard" }
   },
   "overrides": {
-    "2026-11-13": {
-      "lunch": "Rice, Kadhi, Aloo Bhujiya, Jaljeera",
-      "dinner": "Jeera Rice, Masoor Dal Tadka, Puri, Gobhi Shimla Sabji"
-    },
     "2026-11-14": {
       "lunch": "Masala Matar Rice, Dal Tadka, Masala Besan Gatta, Shikanji, Garlic Chutney",
       "dinner": "Veg Biryani (Paneer), Veg Raita, Methi Paratha, Lauki Kofta, Gulab Jamun"
